@@ -11,6 +11,7 @@ import android.util.Log;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,7 +28,11 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        FirebaseMessaging.getInstance().subscribeToTopic("all");
 /*
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Create channel to show notifications.
             String channelId  = getString(R.string.default_notification_channel_id);
