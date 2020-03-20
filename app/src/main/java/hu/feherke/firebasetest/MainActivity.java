@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FirebaseMessaging.getInstance().subscribeToTopic("/topics/elso");
+        //W/FirebaseMessaging: Format /topics/topic-name is deprecated. Only 'topic-name' should be used in subscribeToTopic.
+        FirebaseMessaging.getInstance().subscribeToTopic("elso");
 /*
 
 

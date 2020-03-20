@@ -84,8 +84,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onNewToken(String s) {
         super.onNewToken(s);
         Log.e("NEW_TOKEN_fromService",s);
-
-        FirebaseMessaging.getInstance().subscribeToTopic("/topics/elso");
+        //W/FirebaseMessaging: Format /topics/topic-name is deprecated. Only 'topic-name' should be used in subscribeToTopic.
+        FirebaseMessaging.getInstance().subscribeToTopic("elso");
         sendRegistrationToServer(s);
     }
 
