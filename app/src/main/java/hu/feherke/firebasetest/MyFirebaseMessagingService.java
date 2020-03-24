@@ -1,11 +1,11 @@
 package hu.feherke.firebasetest;
 
+
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,13 +14,11 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Looper;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -30,8 +28,10 @@ import com.squareup.picasso.Target;
 
 import java.util.Map;
 
+import static androidx.constraintlayout.widget.Constraints.TAG;
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
-    private static final String TAG = "MyFirebaseMessagingService";
+
 
     Target target = new Target() {
         @Override
@@ -65,7 +65,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
 
-            // itt dolgozzuk fel az értesítési ADAT eseményt
+
 
         }
 
@@ -83,15 +83,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onNewToken(String s) {
         super.onNewToken(s);
-        Log.e("NEW_TOKEN_fromService",s);
+        Log.e("newToken_fromMyFirebaseMessagingService",s);
+
         //W/FirebaseMessaging: Format /topics/topic-name is deprecated. Only 'topic-name' should be used in subscribeToTopic.
-        FirebaseMessaging.getInstance().subscribeToTopic("elso");
+        FirebaseMessaging.getInstance().subscribeToTopic("teszt");
         sendRegistrationToServer(s);
     }
 
 
     private void sendRegistrationToServer(String refreshedToken) {
-        Log.d("TOKEN ", refreshedToken);
+        Log.d(TAG, refreshedToken);
     }
 
 
