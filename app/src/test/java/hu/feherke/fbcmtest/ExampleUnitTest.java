@@ -1,4 +1,4 @@
-package hu.feherke.firebasetest;
+package hu.feherke.fbcmtest;
 
 import org.junit.Test;
 

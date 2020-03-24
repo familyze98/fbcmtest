@@ -1,4 +1,4 @@
-package hu.feherke.firebasetest;
+package hu.feherke.fbcmtest;
 
 public class Config {
     public static String content = "";

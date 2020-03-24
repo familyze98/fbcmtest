@@ -1,10 +1,7 @@
-package hu.feherke.firebasetest;
+package hu.feherke.fbcmtest;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -31,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // W/FirebaseMessaging: Format /topics/topic-name is deprecated. Only 'topic-name' should be used in subscribeToTopic.
-        FirebaseMessaging.getInstance().subscribeToTopic("elso");
+        FirebaseMessaging.getInstance().subscribeToTopic("teszt");
 
 /*
 
