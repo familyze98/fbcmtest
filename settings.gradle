@@ -1,2 +1,2 @@
-rootProject.name='firebasetest'
+rootProject.name='fbcmtest'
 include ':app'

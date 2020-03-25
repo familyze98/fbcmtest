@@ -18,6 +18,8 @@ import android.os.Looper;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -25,10 +27,10 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-
 import java.util.Map;
 
-import static androidx.constraintlayout.widget.Constraints.TAG;
+import static hu.feherke.fbcmtest.MainActivity.DEF_NOTIFICATION_CHANNEL_NAME;
+import static hu.feherke.fbcmtest.MainActivity.TAG;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -54,20 +56,24 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         /* Nem árt tudni
           When your app is in the background, notification messages are displayed in the system tray, and onMessageReceived is not called.
+          Ebben az esetben az Intent (MainActivity) extras objektuma tartalmazza a data-t.
          */
-
-        if(remoteMessage.getData()!=null)
-            getImage(remoteMessage);
 
 
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
-        // Check if message contains a data payload.
-        if (remoteMessage.getData().size() > 0) {
+        if(remoteMessage.getData()!=null)
+            if (remoteMessage.getData().size() > 0) {
+                getImage(remoteMessage);
+                Log.d(TAG, "Message data payload (FirebaseMessagingService)");
+                Log.d(TAG, "************************************************************************");
+                for (String key : remoteMessage.getData().keySet()) {
+                    Object value = remoteMessage.getData().get(key);
+                    Log.d(TAG, "Key: " + key + " Value: " + value);
+                }
+                scheduleJob(); // ez most nem csinál semmit, csak demonstrálja a hosszú feldolgozást
+            }
 
-
-
-        }
 
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
@@ -83,10 +89,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onNewToken(String s) {
         super.onNewToken(s);
-        Log.e("newToken_fromMyFirebaseMessagingService",s);
+        Log.d(TAG,"newToken_fromMyFirebaseMessagingService: "+s);
 
         //W/FirebaseMessaging: Format /topics/topic-name is deprecated. Only 'topic-name' should be used in subscribeToTopic.
-        FirebaseMessaging.getInstance().subscribeToTopic("teszt");
+        FirebaseMessaging.getInstance().subscribeToTopic(DEF_NOTIFICATION_CHANNEL_NAME);
         sendRegistrationToServer(s);
     }
 
@@ -98,6 +104,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void sendNotification(Bitmap bitmap){
 
+        Log.d(TAG,"sendNotification");
 
         NotificationCompat.BigPictureStyle style = new NotificationCompat.BigPictureStyle();
         style.bigPicture(bitmap);
@@ -160,6 +167,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 }
             }) ;
         }
+    }
+
+    private void scheduleJob() {
+        // [START dispatch_job]
+        OneTimeWorkRequest work = new OneTimeWorkRequest.Builder(MyWorker.class)
+                .build();
+        WorkManager.getInstance().beginWith(work).enqueue();
+        // [END dispatch_job]
     }
 
 }
