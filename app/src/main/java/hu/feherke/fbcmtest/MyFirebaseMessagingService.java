@@ -24,8 +24,7 @@ import androidx.work.WorkManager;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+
 
 import java.util.Map;
 
@@ -34,23 +33,6 @@ import static hu.feherke.fbcmtest.MainActivity.TAG;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
-
-    Target target = new Target() {
-        @Override
-        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            sendNotification(bitmap);
-        }
-
-        @Override
-        public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-
-        }
-
-        @Override
-        public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-        }
-    };
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -161,9 +143,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 @Override
                 public void run() {
                     // Get image from data Notification
-                    Picasso.get()
-                            .load(Config.imageUrl)
-                            .into(target);
+
                 }
             }) ;
         }

@@ -27,7 +27,7 @@
 
         <service
             android:name="hu.feherke.fbcmtest.MyFirebaseMessagingService"
-            android:stopWithTask="false">
+            >
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
 
